@@ -1,0 +1,12 @@
+conf/tweakconf.ini
+conf/test.ini
+world.regions.json
+tweak-buk-conv
+tweak-buk-conv.cbp
+tweak-buk-conv_build_log.html
+*.o
+*.so
+*.svn
+.svn
+.svn*
+
