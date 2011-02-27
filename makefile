@@ -24,16 +24,17 @@ test_objects = $(MODULEDIR)ModuleBase.o $(MODULEDIR)Test.o
 default: tweakbukconv
 
 tweakbukconv: $(main_objects)
-	$(CC) -rdynamic -o $(EXECUTABLE) $(main_objects) $(MYSQLFLAGS) $(LIBS)
+	$(CC) -rdynamic -o $(EXECUTABLE) $(main_objects) $(MYSQLFLAGS) $(LIBS) $(CXXFLAGS)
 Admin.so: $(admin_objects)
-	$(CC) -shared -Wl -o $(LIBDIR)$(@) $(admin_objects)
+	$(CC) -shared -o $(LIBDIR)$(@) $(admin_objects) $(CXXFLAGS)
 TweakZoneConvert.so: $(tweakconvert_objects)
-	$(CC) -shared -Wl -o $(LIBDIR)$(@) $(tweakconvert_objects)
+	$(CC) -shared -o $(LIBDIR)$(@) $(tweakconvert_objects) $(CXXFLAGS)
 
 all: $(allfunctions)
 Debug: all
 Release: all
-
+cleanDebug: clean
+cleanRelease: clean
 clean:
 	rm -f $(LIBDIR)*.so $(SRCDIR)*.o $(MODULEDIR)*.o $(EXECUTABLE)
 
