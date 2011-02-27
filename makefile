@@ -1,10 +1,10 @@
 CC = g++
-CFLAGS = -march=native -O0 -pipe
-CXXFLAGS = $(CFLAGS) -fPIC -g -Wall
-MYSQLFLAGS = -L/usr/include/mysql -lmysqlclient -I/usr/include/mysql
-BOOSTLIB = -lboost_thread
+CFLAGS = -march=native -pipe -O2 #-O#n for nondebug
+CXXFLAGS = $(CFLAGS) -fPIC -Wall #-g << debugging
+MYSQLFLAGS = -L/usr/include/mysql -lmysqlclient -I/usr/include/mysql #depends on arch
+BOOSTLIB = -lboost_thread #depends on arch
 LIBS = -ldl $(BOOSTLIB)
-MAKEFLAGS = -j
+MAKEFLAGS = -j #-j#n for threaded compiling
 
 SRCDIR=src/
 MODULEDIR=$(SRCDIR)modules/
