@@ -1,7 +1,5 @@
 #include "../../include/Zone.h"
 #include <boost/algorithm/string.hpp>
-#include <sstream>
-#include <cstring>
 #include <iostream>
 
 
@@ -31,8 +29,8 @@ void Zone::set_z(std::string minz, std::string maxz)
 
 void Zone::add_vertice(std::string m_x, std::string m_y)
 {
-	x.push_back(convertString(m_x));
-	y.push_back(convertString(m_y));
+	x.push_back(convertToDouble(m_x));
+	y.push_back(convertToDouble(m_y));
 }
 
 void Zone::add_admin(std::string m_user)
@@ -115,16 +113,4 @@ std::vector< std::string > Zone::get_admins()
 std::vector< std::string > Zone::get_users()
 {
 	return users;
-}
-
-
-
-
-
-double Zone::convertString(std::string data)
-{
-    double i;
-    std::stringstream ss(data);//create a stringstream
-    ss >> i;//add number to the stream
-    return i;//return a string with the contents of the stream
 }

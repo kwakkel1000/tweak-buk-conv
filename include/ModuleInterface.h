@@ -1,15 +1,16 @@
 #ifndef ModuleInterface_H
 #define ModuleInterface_H
-#include <vector>
-#include <string>
 #include "ConfigReader.h"
+#include "Group.h"
 
+class ConfigReader;
+class Group;
 class ModuleInterface {
 
     public:
 
                 ModuleInterface() { }
-                virtual void BaseInit(ConfigReader* reader)=0;
+                virtual void BaseInit(ConfigReader* reader, Group* g)=0;
                 virtual void threadloop()=0;
                 virtual void stopthreadloop()=0;
                 virtual void Init()=0;

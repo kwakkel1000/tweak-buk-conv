@@ -1,16 +1,11 @@
 #ifndef ModuleBase_H
 #define ModuleBase_H
-
-#include <vector>
-#include <string>
 #include "ModuleInterface.h"
-#include "Database.h"
-#include "ConfigReader.h"
-
-using namespace std;
+#include "GlobalBase.h"
 
 class ConfigReader;
-class ModuleBase : public ModuleInterface
+class Group;
+class ModuleBase : public ModuleInterface, public GlobalBase
 {
 
     public:
@@ -18,33 +13,14 @@ class ModuleBase : public ModuleInterface
                 ModuleBase();
                 ~ModuleBase();
                 //init
-                void BaseInit(ConfigReader* reader);
+                virtual void BaseInit(ConfigReader* reader, Group* g);
+				virtual void stopthreadloop();
 
     //private:
     protected:
-
-                //class objecten
-                ConfigReader* cf;
-
                 //vars
-                std::string hostname_str;
-                std::string databasename_str;
-                std::string username_str;
-                std::string pass_str;
-
 				bool runthreadloop;
-
-                //global functions
-
-                //database
-                std::vector< std::vector<std::string> > RawSqlSelect(std::string data);
-                bool RawSql(std::string data);
-
-                //other
-                std::vector<std::string> lineout(std::vector<std::string> data, unsigned int rowamount, unsigned int length);
-                std::string convertInt(int);
-                int convertString(std::string);
-
+                Group* group;
 };
 
 #endif // ModuleBase_H

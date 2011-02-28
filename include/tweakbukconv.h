@@ -1,22 +1,14 @@
 #ifndef tweakbukconv_h
 #define tweakbukconv_h
 #include "ModuleInterface.h"
-#include <iostream>
-#include <algorithm>
-#include <sstream>
 #include <string>
 #include <vector>
-#include <cstring>
-#include <dlfcn.h>
-#include <boost/bind.hpp>
 #include <boost/thread/thread.hpp>
-#include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
-
-using namespace std;
 
 // Predefinitions
 class ConfigReader;
+class Group;
 class tweakbukconv
 {
 public:
@@ -42,7 +34,7 @@ private:
     std::vector< boost::shared_ptr< boost::thread> > module_thread_vector;
 
     ConfigReader* reader;
-
+    Group* group;
 
 	bool tweakloop;
 	void tweakrun();

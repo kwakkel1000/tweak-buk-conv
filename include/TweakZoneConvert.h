@@ -1,15 +1,7 @@
 #ifndef TweakZoneConvert_h
 #define TweakZoneConvert_h
-
-#include "ModuleInterface.h"
 #include "ModuleBase.h"
 #include "Zone.h"
-#include <iostream>
-#include <algorithm>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <cstring>
 
 // Predefinitions
 class Zone;
@@ -19,7 +11,6 @@ public:
     TweakZoneConvert();
     ~TweakZoneConvert();
     void threadloop();
-    void stopthreadloop();
     void Init();
 
 private:
@@ -38,7 +29,6 @@ private:
 	void add_zone_vertice(std::string id, std::string x, std::string y);
 	void add_zone_users(std::string id, std::string m_admins, std::string m_users);
 	int get_zone(std::string id);
-	std::string replace(std::string source_string, std::string search_string, std::string replace_string);
 };
 
 #endif // TweakZoneConvert_h

@@ -1,7 +1,8 @@
 #include "../include/tweakbukconv.h"
 #include "../include/ConfigReader.h"
 #include <iostream>
-#include <vector>
+#include <cstring>
+#include <dlfcn.h>
 #include <boost/algorithm/string.hpp>
 
 tweakbukconv::tweakbukconv()
@@ -12,33 +13,34 @@ tweakbukconv::tweakbukconv()
 
 tweakbukconv::~tweakbukconv()
 {
-    cout << "tweakbukconv::~tweakbukconv() begin" << endl;
+    std::cout << "tweakbukconv::~tweakbukconv() begin" << std::endl;
 	tweakloop = false;
     delete reader;
     for (unsigned int i = modulelist.size(); i > 0; i--)
     {
         UnLoadModule(modulelist[i-1]);
     }
-    cout << "tweakbukconv::~tweakbukconv() end" << endl;
+    std::cout << "tweakbukconv::~tweakbukconv() end" << std::endl;
 }
 
-void tweakbukconv::Init(string configfile)
+void tweakbukconv::Init(std::string configfile)
 {
     reader = new ConfigReader();
+    group = new Group();
     if (reader->ReadFile(configfile))
     {
-        cout << "W00p config is gelezen \\o/" << endl;
+        std::cout << "W00p config is gelezen \\o/" << std::endl;
     }
     else
     {
-        cout << "Kon niet lezen :/" << endl;
+        std::cout << "Kon niet lezen :/" << std::endl;
     }
 
     std::string loadmodsstr;
     loadmodsstr = reader->GetString("loadmods");
     moduledir = reader->GetString("moduledir");
 
-    vector<string> loadmods;
+    std::vector< std::string > loadmods;
     boost::split( loadmods, loadmodsstr, boost::is_any_of(" "), boost::token_compress_on );
     for (unsigned int i = 0; i < loadmods.size(); i++)
     {
@@ -49,7 +51,7 @@ void tweakbukconv::Init(string configfile)
     tweak_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&tweakbukconv::tweakrun, this)));
 }
 
-bool tweakbukconv::LoadModule(string modulename)
+bool tweakbukconv::LoadModule(std::string modulename)
 {
     bool loaded = false;
     for (unsigned int i = 0; i < modulelist.size(); i++)
@@ -65,14 +67,13 @@ bool tweakbukconv::LoadModule(string modulename)
         void* module;
         create_tmi* create_module;
         destroy_tmi* destroy_module;
-        string modulepath = "./" + moduledir + modulename + ".so";
+        std::string modulepath = "./" + moduledir + modulename + ".so";
         // load the library
         module = dlopen(modulepath.c_str(), RTLD_LAZY);
         if (!module) {
-            cerr << "Cannot load library: " << dlerror() << '\n';
+            std::cerr << "Cannot load library: " << dlerror() << '\n';
             return false;
 			exit(1);
-            //return 1;
         }
 
         // load the symbols
@@ -82,12 +83,11 @@ bool tweakbukconv::LoadModule(string modulename)
             cerr << "Cannot load symbols: " << dlerror() << '\n';
             return false;
 			exit(1);
-            //return 1;
         }
-        cout << "Module " << modulename << " Loaded" << endl;
+        std::cout << "Module " << modulename << " Loaded" << std::endl;
         // create an instance of the class
         mi = create_module();
-        mi->BaseInit(reader);
+        mi->BaseInit(reader, group);
         mi->Init();
         modulelist.push_back(modulename);
         modulevector.push_back(module);
@@ -111,12 +111,12 @@ bool tweakbukconv::LoadModule(string modulename)
         }
         return true;
     }
-    cout << "module " << modulename  << " already loaded" << endl;
+    std::cout << "module " << modulename  << " already loaded" << std::endl;
     return false;
 }
 
 
-bool tweakbukconv::UnLoadModule(string modulename)
+bool tweakbukconv::UnLoadModule(std::string modulename)
 {
     int modi = -1;
     for (unsigned int i = 0; i < modulelist.size(); i++)
@@ -138,7 +138,7 @@ bool tweakbukconv::UnLoadModule(string modulename)
         moduleinterfacevector.erase(moduleinterfacevector.begin()+modi);
         createvector.erase(createvector.begin()+modi);
         destroyvector.erase(destroyvector.begin()+modi);
-        cout << modulename << " UnLoaded" << endl;
+        std::cout << modulename << " UnLoaded" << std::endl;
         return true;
     }
     return false;
@@ -160,5 +160,5 @@ void tweakbukconv::tweakrun()
 	{
 		usleep(1000000);
 	}*/
-    cout << "void tweakbukconv::tweakrun() end" << endl;
+    std::cout << "void tweakbukconv::tweakrun() end" << std::endl;
 }

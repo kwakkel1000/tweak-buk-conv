@@ -1,9 +1,8 @@
 #ifndef Zone_h
 #define Zone_h
-#include <vector>
-#include <string>
+#include "GlobalBase.h"
 
-class Zone
+class Zone : public GlobalBase
 {
 	public:
 		Zone();
@@ -35,8 +34,6 @@ class Zone
 		std::vector< double > y;
 		std::vector< std::string > admins;
 		std::vector< std::string > users;
-
-		double convertString(std::string data);
 };
 
 

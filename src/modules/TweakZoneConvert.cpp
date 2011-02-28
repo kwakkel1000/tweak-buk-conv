@@ -1,6 +1,9 @@
 #include "../../include/TweakZoneConvert.h"
+#include "../../include/GlobalBase.h"
 #include <boost/algorithm/string.hpp>
 #include <fstream>
+#include <iostream>
+#include <cstring>
 
 
 extern "C" ModuleInterface* create()
@@ -23,23 +26,8 @@ TweakZoneConvert::~TweakZoneConvert()
 
 void TweakZoneConvert::Init()
 {
-	groups.push_back("Default");
-	groups.push_back("Vip");
-	groups.push_back("ServerAdmin");
-	groups.push_back("Builder");
-	groups.push_back("Admin");
-	groups.push_back("Beunhaas");
-	groups.push_back("Kids");
-	groups.push_back("SupportAdmin");
 	regionfile = cf->GetString("regionfile");
     runthreadloop = true;
-}
-
-
-void TweakZoneConvert::stopthreadloop()
-{
-    runthreadloop = false;
-    cout << "notify" << endl;
 }
 
 void TweakZoneConvert::threadloop()
@@ -206,6 +194,8 @@ void TweakZoneConvert::ParseZoneDataDB()
 			users = Zones[i].get_users();
 			double tmp_x_min = x[0];
 			double tmp_x_max = x[0];
+			double tmp_y_min = y[0];
+			double tmp_y_max = y[0];
 			for (unsigned int x_it = 0; x_it < x.size(); x_it++)
 			{
 				if (tmp_x_min > x[x_it])
@@ -217,14 +207,6 @@ void TweakZoneConvert::ParseZoneDataDB()
 					tmp_x_max = x[x_it];
 				}
 			}
-			stringstream ss_x_min;
-			ss_x_min << tmp_x_min;
-			x_min = ss_x_min.str();
-			stringstream ss_x_max;
-			ss_x_max << tmp_x_max;
-			x_max = ss_x_max.str();
-			double tmp_y_min = y[0];
-			double tmp_y_max = y[0];
 			for (unsigned int y_it = 0; y_it < y.size(); y_it++)
 			{
 				if (tmp_y_min > y[y_it])
@@ -236,12 +218,10 @@ void TweakZoneConvert::ParseZoneDataDB()
 					tmp_y_max = y[y_it];
 				}
 			}
-			stringstream ss_y_min;
-			ss_y_min << tmp_y_min;
-			y_min = ss_y_min.str();
-			stringstream ss_y_max;
-			ss_y_max << tmp_y_max;
-			y_max = ss_y_max.str();
+			x_min = convertToString(tmp_x_min);
+			x_max = convertToString(tmp_x_max);
+			y_min = convertToString(tmp_y_min);
+			y_max = convertToString(tmp_y_max);
 			if (admins.size() > 0)
 			{
 				for (unsigned int admin_access_it = 0; admin_access_it < admins.size() ; admin_access_it++)
@@ -535,15 +515,3 @@ int TweakZoneConvert::get_zone(std::string id)
     }
 	return -1;
 }
-
-std::string TweakZoneConvert::replace(std::string source_string, std::string search_string, std::string replace_string)
-{
-    size_t search_pos;
-    search_pos = source_string.find(search_string);
-    if (search_pos != string::npos)
-    {
-        source_string.replace(search_pos, search_string.length(), replace_string);
-    }
-    return source_string;
-}
-
