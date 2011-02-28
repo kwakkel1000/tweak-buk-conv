@@ -16,7 +16,7 @@ class Group : public GlobalBase
 		std::string get_canbuild();
 		std::string get_default();
 		std::string get_ignorerestrictions();
-		std::vector< std::string > get_inheritedgroups();
+		std::string get_inheritedgroup();
 		std::vector< std::string > get_commands();
 
 	private:
@@ -26,7 +26,7 @@ class Group : public GlobalBase
 		std::string canbuild;
 		std::string isdefault;
 		std::string ignorerestrictions;
-		std::vector< std::string > inheritedgroups;
+		std::string inheritedgroup;
 		std::vector< std::string > commands;
 };
 

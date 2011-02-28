@@ -23,7 +23,7 @@ void Group::init(std::string m_id, std::string m_name, std::string m_admin, std:
 }
 void Group::add_inherit_group(std::string m_group)
 {
-	inheritedgroups.push_back(m_group);
+	inheritedgroup = m_group;
 }
 void Group::add_command(std::string m_command)
 {
@@ -53,9 +53,9 @@ std::string Group::get_ignorerestrictions()
 {
 	return ignorerestrictions;
 }
-std::vector< std::string > Group::get_inheritedgroups()
+std::string Group::get_inheritedgroup()
 {
-	return inheritedgroups;
+	return inheritedgroup;
 }
 std::vector< std::string > Group::get_commands()
 {

@@ -172,22 +172,23 @@ void tweakbukconv::tweakrun()
 void tweakbukconv::GetGroupsDB()
 {
 	std::vector< std::vector< std::string > > sql_result;
-    std::string sql_string = "SELECT groups.id, groups.name, groups.admin, groups.canmodifyworld, groups.defaultgroup, groups.ignorerestrictions from groups;";
+    std::string sql_string = "SELECT groups.id, groups.name, groups.admin, groups.canmodifyworld, groups.defaultgroup, groups.ignorerestrictions, groups.commands, groups.inheritedgroups from groups;";
     sql_result = RawSqlSelect(sql_string);
     unsigned int i;
     for (i = 0 ; i < sql_result.size() ; i++)
     {
-    	if (sql_result[i].size() == 6)
+    	if (sql_result[i].size() == 8)
     	{
-    		//groups->AddGroup(sql_result[i][0], sql_result[i][1], sql_result[i][2], sql_result[i][3], sql_result[i][4], sql_result[i][5]);
     		groups->AddGroup(sql_result[i][1]);
+    		groups->group_init(sql_result[i][0], sql_result[i][1], sql_result[i][2], sql_result[i][3], sql_result[i][4], sql_result[i][5]);
+    		groups->group_add_commands(sql_result[i][1], sql_result[i][6]);
+    		groups->group_add_parent(sql_result[i][1], sql_result[i][7]);
     	}
     	else
     	{
     		std::cout << "onverwacht resultaat vector.size(): " << sql_result[i].size() << std::endl;
     	}
     }
-    groups->ExpandGroups();
 }
 //mysql
 std::vector< std::vector< std::string > > tweakbukconv::RawSqlSelect(std::string data)

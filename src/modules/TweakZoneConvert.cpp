@@ -206,15 +206,7 @@ void TweakZoneConvert::ParseZoneDataDB()
 			{
 				for (unsigned int admin_access_it = 0; admin_access_it < admins.size() ; admin_access_it++)
 				{
-					bool isgroup = false;
-					for (unsigned int group_it = 0; group_it < groups.size(); group_it++)
-					{
-						if (boost::iequals(admins[admin_access_it], groups[group_it]))
-						{
-							isgroup = true;
-						}
-					}
-					if (isgroup)
+					if (groups->is_group(admins[admin_access_it]))
 					{
 						owners_group.push_back(admins[admin_access_it]);
 					}
@@ -228,15 +220,7 @@ void TweakZoneConvert::ParseZoneDataDB()
 			{
 				for (unsigned int user_access_it = 0; user_access_it < users.size() ; user_access_it++)
 				{
-					bool isgroup = false;
-					for (unsigned int group_it = 0; group_it < groups.size(); group_it++)
-					{
-						if (boost::iequals(users[user_access_it], groups[group_it]))
-						{
-							isgroup = true;
-						}
-					}
-					if (isgroup)
+					if (groups->is_group(users[user_access_it]))
 					{
 						members_group.push_back(users[user_access_it]);
 					}

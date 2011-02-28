@@ -26,7 +26,6 @@ bool Groups::AddGroup(std::string m_name)
     {
         name.push_back (m_name);
         Group *tmpgroup = new Group();
-        //tmpgroup->SetName(m_name);
         g.push_back (tmpgroup);
         return true;
     }
@@ -46,27 +45,62 @@ bool Groups::DelGroup(std::string m_name)
     }
     return false;
 }
-/*
-void Groups::Debug()
+
+bool Groups::group_init(std::string m_id, std::string m_name, std::string m_admin, std::string m_canmodifyworld, std::string m_defaultgroup, std::string m_ignorerestrictions)
 {
-    boost::mutex::scoped_lock  lock(User_mutex);
-    for ( unsigned int i = 0 ; i < name.size(); i++ )
-    {
-        cout << "NICK: " << name[i] << " auth: " << u[i]->GetAuth() << endl;
-        vector<string> channels = u[i]->GetChannels();
-        cout << "Nick Channels:";
-        for ( unsigned int j = 0 ; j < channels.size(); j++ )
-        {
-            cout << "  " << channels[j];
-        }
-        std::cout << std::endl;
-    }
+	int GroupIndex = GetNameIndex(m_name);
+	if (GroupIndex >= 0)
+	{
+		g[GroupIndex]->init(m_id, m_name, m_admin, m_canmodifyworld, m_defaultgroup, m_ignorerestrictions);
+		return true;
+	}
+	return false;
 }
-*/
+
+bool Groups::group_add_commands(std::string m_name, std::string m_commands)
+{
+	int GroupIndex = GetNameIndex(m_name);
+	if (GroupIndex >= 0)
+	{
+		//g[GroupIndex]->add_commands(m_commands);
+		return true;
+	}
+	return false;
+}
+
+bool Groups::group_add_parent(std::string m_name, std::string m_parent)
+{
+	int GroupIndex = GetNameIndex(m_name);
+	if (GroupIndex >= 0)
+	{
+		g[GroupIndex]->add_inherit_group(m_parent);
+		return true;
+	}
+	return false;
+}
 
 std::vector< std::string > Groups::GetGroups()
 {
 	return name;
+}
+
+std::string Groups::group_get_parent(std::string m_name)
+{
+	int GroupIndex = GetNameIndex(m_name);
+	if (GroupIndex >= 0)
+	{
+		return g[GroupIndex]->get_inheritedgroup();
+	}
+	return "NULL";
+}
+
+bool Groups::is_group(std::string m_name)
+{
+	if (GetNameIndex(m_name) >= 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 int Groups::GetNameIndex(std::string m_name)

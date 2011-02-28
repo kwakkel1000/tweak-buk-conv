@@ -19,7 +19,6 @@ private:
 	std::string regionfile;
 	std::vector< std::string > ZoneIds;
 	std::vector< Zone > Zones;
-	std::vector< std::string > groups;
 
 	//functions
 	void GetZoneDataDB();
