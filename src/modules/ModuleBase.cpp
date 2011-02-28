@@ -11,10 +11,11 @@ ModuleBase::~ModuleBase()
 
 
 //init
-void ModuleBase::BaseInit(ConfigReader* reader, Group* g)
+void ModuleBase::BaseInit(ConfigReader* reader, Group* g, User* u)
 {
 	cf = reader;
 	group = g;
+	user = u;
     hostname_str = reader->GetString("hostname");
     databasename_str = reader->GetString("databasename");
     username_str = reader->GetString("username");

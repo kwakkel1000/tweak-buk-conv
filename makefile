@@ -18,6 +18,7 @@ main_objects = $(SRCDIR)main.o \
 	$(SRCDIR)Database.o \
 	$(SRCDIR)GlobalBase.o \
 	$(SRCDIR)Group.o \
+	$(SRCDIR)User.o \
 	$(SRCDIR)ConfigReader.o
 admin_objects = $(MODULEDIR)Admin.o
 tweakconvert_objects = $(MODULEDIR)ModuleBase.o $(MODULEDIR)TweakZoneConvert.o $(MODULEDIR)Zone.o

@@ -9,6 +9,7 @@
 // Predefinitions
 class ConfigReader;
 class Group;
+class User;
 class tweakbukconv
 {
 public:
@@ -35,6 +36,7 @@ private:
 
     ConfigReader* reader;
     Group* group;
+    User* user;
 
 	bool tweakloop;
 	void tweakrun();

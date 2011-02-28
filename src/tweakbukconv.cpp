@@ -27,6 +27,7 @@ void tweakbukconv::Init(std::string configfile)
 {
     reader = new ConfigReader();
     group = new Group();
+    user = new User();
     if (reader->ReadFile(configfile))
     {
         std::cout << "W00p config is gelezen \\o/" << std::endl;
@@ -87,7 +88,7 @@ bool tweakbukconv::LoadModule(std::string modulename)
         std::cout << "Module " << modulename << " Loaded" << std::endl;
         // create an instance of the class
         mi = create_module();
-        mi->BaseInit(reader, group);
+        mi->BaseInit(reader, group, user);
         mi->Init();
         modulelist.push_back(modulename);
         modulevector.push_back(module);

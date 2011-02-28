@@ -4,7 +4,6 @@
 #include "GlobalBase.h"
 
 class ConfigReader;
-class Group;
 class ModuleBase : public ModuleInterface, public GlobalBase
 {
 
@@ -13,7 +12,7 @@ class ModuleBase : public ModuleInterface, public GlobalBase
                 ModuleBase();
                 ~ModuleBase();
                 //init
-                virtual void BaseInit(ConfigReader* reader, Group* g);
+                virtual void BaseInit(ConfigReader* reader, Group* g, User* u);
 				virtual void stopthreadloop();
 
     //private:
@@ -21,6 +20,7 @@ class ModuleBase : public ModuleInterface, public GlobalBase
                 //vars
 				bool runthreadloop;
                 Group* group;
+                User* user;
 };
 
 #endif // ModuleBase_H
