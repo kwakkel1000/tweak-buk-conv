@@ -32,7 +32,6 @@ void TweakZoneConvert::Init()
 
 void TweakZoneConvert::threadloop()
 {
-	GetGroupsDB();
 	GetZoneDataDB();
 	ParseZoneDataDB();
     /*while (runthreadloop)
@@ -40,25 +39,6 @@ void TweakZoneConvert::threadloop()
     	usleep(1000000);
     }*/
     cout << "void TweakZoneConvert::threadloop() end" << endl;
-}
-
-void TweakZoneConvert::GetGroupsDB()
-{
-	std::vector< std::vector< std::string > > sql_result;
-    std::string sql_string = "SELECT groups.name from groups;";
-    sql_result = RawSqlSelect(sql_string);
-    unsigned int i;
-    for (i = 0 ; i < sql_result.size() ; i++)
-    {
-    	if (sql_result[i].size() == 1)
-    	{
-			groups.push_back(sql_result[i][0]);
-    	}
-    	else
-    	{
-    		std::cout << "onverwacht resultaat vector.size(): " << sql_result[i].size() << std::endl;
-    	}
-    }
 }
 
 void TweakZoneConvert::GetZoneDataDB()
@@ -356,7 +336,7 @@ void TweakZoneConvert::ParseZoneDataDB()
 			put_string = put_string + members;
 			put_string = put_string + "\"flags\":{";
 			put_string = put_string + "\"flags\":{";
-			put_string = put_string + "\"msg\":{\"f\":\"exited " + Zones[i].get_name() + "\",\"g\":\"entered " + Zones[i].get_name() + "\"},";
+			put_string = put_string + "\"msg\":{\"f\":\"&5exited " + Zones[i].get_name() + "\",\"g\":\"&5entered " + Zones[i].get_name() + "\"},";
 			put_string = put_string + "\"states\":{";
 			put_string = put_string + allow_tnt;
 			put_string = put_string + ",";

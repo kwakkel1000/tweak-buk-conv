@@ -1,5 +1,6 @@
 #include "../include/tweakbukconv.h"
 #include "../include/ConfigReader.h"
+#include "../include/Database.h"
 #include <iostream>
 #include <cstring>
 #include <dlfcn.h>
@@ -26,8 +27,8 @@ tweakbukconv::~tweakbukconv()
 void tweakbukconv::Init(std::string configfile)
 {
     reader = new ConfigReader();
-    group = new Group();
-    user = new User();
+    groups = new Groups();
+    users = new Users();
     if (reader->ReadFile(configfile))
     {
         std::cout << "W00p config is gelezen \\o/" << std::endl;
@@ -40,7 +41,11 @@ void tweakbukconv::Init(std::string configfile)
     std::string loadmodsstr;
     loadmodsstr = reader->GetString("loadmods");
     moduledir = reader->GetString("moduledir");
-
+    hostname_str = reader->GetString("hostname");
+    databasename_str = reader->GetString("databasename");
+    username_str = reader->GetString("username");
+    pass_str = reader->GetString("password");
+	GetGroupsDB();
     std::vector< std::string > loadmods;
     boost::split( loadmods, loadmodsstr, boost::is_any_of(" "), boost::token_compress_on );
     for (unsigned int i = 0; i < loadmods.size(); i++)
@@ -88,7 +93,7 @@ bool tweakbukconv::LoadModule(std::string modulename)
         std::cout << "Module " << modulename << " Loaded" << std::endl;
         // create an instance of the class
         mi = create_module();
-        mi->BaseInit(reader, group, user);
+        mi->BaseInit(reader, groups, users);
         mi->Init();
         modulelist.push_back(modulename);
         modulevector.push_back(module);
@@ -162,4 +167,75 @@ void tweakbukconv::tweakrun()
 		usleep(1000000);
 	}*/
     std::cout << "void tweakbukconv::tweakrun() end" << std::endl;
+}
+
+void tweakbukconv::GetGroupsDB()
+{
+	std::vector< std::vector< std::string > > sql_result;
+    std::string sql_string = "SELECT groups.id, groups.name, groups.admin, groups.canmodifyworld, groups.defaultgroup, groups.ignorerestrictions from groups;";
+    sql_result = RawSqlSelect(sql_string);
+    unsigned int i;
+    for (i = 0 ; i < sql_result.size() ; i++)
+    {
+    	if (sql_result[i].size() == 6)
+    	{
+    		//groups->AddGroup(sql_result[i][0], sql_result[i][1], sql_result[i][2], sql_result[i][3], sql_result[i][4], sql_result[i][5]);
+    		groups->AddGroup(sql_result[i][1]);
+    	}
+    	else
+    	{
+    		std::cout << "onverwacht resultaat vector.size(): " << sql_result[i].size() << std::endl;
+    	}
+    }
+    groups->ExpandGroups();
+}
+//mysql
+std::vector< std::vector< std::string > > tweakbukconv::RawSqlSelect(std::string data)
+{
+    cout << data << endl;
+    database *db;
+    std::vector< std::vector<std::string> > sql_result;
+    db = new database();    // lol whut... connecting for each query? :'D
+    int state = db->openConnection(hostname_str.c_str(), databasename_str.c_str(), username_str.c_str(), pass_str.c_str());
+    if (state == 200)
+    {
+        sql_result = db->sql_query( data.c_str() );
+    }
+    else
+    {
+        cout << hostname_str << endl;
+        cout << databasename_str << endl;
+        cout << username_str << endl;
+        cout << pass_str << endl;
+        cout << "db fail " << state << endl;
+		db->disconnect();
+		delete db;
+		exit(1);
+    }
+    db->disconnect();
+    delete db;
+    return sql_result;
+}
+
+bool tweakbukconv::RawSql(std::string data)
+{
+    cout << data << endl;
+    database *db;
+    db = new database();    // lol whut... connecting for each query? :'D
+    int state = db->openConnection(hostname_str.c_str(), databasename_str.c_str(), username_str.c_str(), pass_str.c_str());
+    if (state == 200)
+    {
+        db->updateQuery( data.c_str() );
+    }
+    else
+    {
+        cout << hostname_str << endl;
+        cout << databasename_str << endl;
+        cout << username_str << endl;
+        cout << pass_str << endl;
+        cout << "db fail " << state << endl;
+    }
+    db->disconnect();
+    delete db;
+    return true;
 }

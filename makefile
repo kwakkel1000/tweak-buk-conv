@@ -17,7 +17,9 @@ main_objects = $(SRCDIR)main.o \
 	$(SRCDIR)tweakbukconv.o \
 	$(SRCDIR)Database.o \
 	$(SRCDIR)GlobalBase.o \
+	$(SRCDIR)Groups.o \
 	$(SRCDIR)Group.o \
+	$(SRCDIR)Users.o \
 	$(SRCDIR)User.o \
 	$(SRCDIR)ConfigReader.o
 admin_objects = $(MODULEDIR)Admin.o

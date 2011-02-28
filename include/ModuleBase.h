@@ -12,15 +12,15 @@ class ModuleBase : public ModuleInterface, public GlobalBase
                 ModuleBase();
                 ~ModuleBase();
                 //init
-                virtual void BaseInit(ConfigReader* reader, Group* g, User* u);
+                virtual void BaseInit(ConfigReader* reader, Groups* g, Users* u);
 				virtual void stopthreadloop();
 
     //private:
     protected:
                 //vars
 				bool runthreadloop;
-                Group* group;
-                User* user;
+                Groups* groups;
+                Users* users;
 };
 
 #endif // ModuleBase_H

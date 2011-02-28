@@ -22,7 +22,6 @@ private:
 	std::vector< std::string > groups;
 
 	//functions
-	void GetGroupsDB();
 	void GetZoneDataDB();
 	void ParseZoneDataDB();
 	void add_zone(std::string id, std::string name, std::string minz, std::string maxz, std::string tnt, std::string health);

@@ -8,8 +8,8 @@
 
 // Predefinitions
 class ConfigReader;
-class Group;
-class User;
+class Groups;
+class Users;
 class tweakbukconv
 {
 public:
@@ -24,6 +24,18 @@ private:
 	bool LoadModule(string);
 	bool UnLoadModule(string);
     void LoadThreadLoop(int i);
+	void GetGroupsDB();
+	//database
+	std::vector< std::vector< std::string > > RawSqlSelect(std::string data);
+	bool RawSql(std::string data);
+
+
+
+	//vars
+	std::string hostname_str;
+	std::string databasename_str;
+	std::string username_str;
+	std::string pass_str;
 
 	//modules
 	std::string moduledir;
@@ -35,8 +47,8 @@ private:
     std::vector< boost::shared_ptr< boost::thread> > module_thread_vector;
 
     ConfigReader* reader;
-    Group* group;
-    User* user;
+    Groups* groups;
+    Users* users;
 
 	bool tweakloop;
 	void tweakrun();
