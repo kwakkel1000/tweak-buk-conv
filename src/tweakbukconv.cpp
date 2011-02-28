@@ -172,7 +172,7 @@ void tweakbukconv::tweakrun()
 void tweakbukconv::GetGroupsDB()
 {
 	std::vector< std::vector< std::string > > sql_result;
-    std::string sql_string = "SELECT groups.id, groups.name, groups.admin, groups.canmodifyworld, groups.defaultgroup, groups.ignorerestrictions, groups.commands, groups.inheritedgroups from groups;";
+    std::string sql_string = "SELECT groups.id, groups.name, groups.admin, groups.canmodifyworld, groups.defaultgroup, groups.ignoresrestrictions, groups.commands, groups.inheritedgroups from groups;";
     sql_result = RawSqlSelect(sql_string);
     unsigned int i;
     for (i = 0 ; i < sql_result.size() ; i++)
