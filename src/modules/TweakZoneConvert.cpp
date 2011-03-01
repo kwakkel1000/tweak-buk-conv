@@ -23,14 +23,6 @@ TweakZoneConvert::~TweakZoneConvert()
 
 void TweakZoneConvert::Init()
 {
-	groups.push_back("Default");
-	groups.push_back("Vip");
-	groups.push_back("ServerAdmin");
-	groups.push_back("Builder");
-	groups.push_back("Admin");
-	groups.push_back("Beunhaas");
-	groups.push_back("Kids");
-	groups.push_back("SupportAdmin");
 	regionfile = cf->GetString("regionfile");
     runthreadloop = true;
 }
@@ -359,7 +351,7 @@ void TweakZoneConvert::ParseZoneDataDB()
 				allow_mobdamage = "\"mobdamage\":\"DENY\"";
 			}
 			allow_creeper = "\"creeper\":\"NONE\"";
-			allow_waterflow = "\"waterflow\":\"DENY\"";
+			allow_waterflow = "\"waterflow\":\"ALLOW\"";
 			std::string put_string = "";
 			put_string = put_string + "\"" + name + "\":{";
 			put_string = put_string + "\"min\":{";
