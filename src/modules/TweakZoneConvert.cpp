@@ -234,6 +234,12 @@ void TweakZoneConvert::ParseZoneDataDB()
 			stringstream ss_y_max;
 			ss_y_max << tmp_y_max;
 			y_max = ss_y_max.str();
+			int x = (tmp_x_max - tmp_x_min);
+			int y = (tmp_y_max - tmp_y_min);
+			int size = x * y;
+			stringstream ss_size;
+			ss_size << size;
+			std::string ssize = ss_size.str();
 			if (admins.size() > 0)
 			{
 				for (unsigned int admin_access_it = 0; admin_access_it < admins.size() ; admin_access_it++)
@@ -363,7 +369,7 @@ void TweakZoneConvert::ParseZoneDataDB()
 			put_string = put_string + "\"y\":" + Zones[i].get_zmax() + ".0,";
 			put_string = put_string + "\"z\":" + y_max + ".0},";
 			put_string = put_string + "\"id\": \"" + name + "\",";
-			put_string = put_string + "\"priority\":0,";
+			put_string = put_string + "\"priority\":-" + ssize + "0,";
 			put_string = put_string + owners;
 			put_string = put_string + members;
 			put_string = put_string + "\"flags\":{";
