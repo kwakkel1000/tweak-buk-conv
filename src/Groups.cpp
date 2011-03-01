@@ -74,6 +74,7 @@ bool Groups::group_add_parent(std::string m_name, std::string m_parent)
 	if (GroupIndex >= 0)
 	{
 		g[GroupIndex]->add_inherit_group(m_parent);
+		cout << "group: " << m_name << " has parent: " << m_parent << endl;
 		return true;
 	}
 	return false;
@@ -92,6 +93,111 @@ std::string Groups::group_get_parent(std::string m_name)
 		return g[GroupIndex]->get_inheritedgroup();
 	}
 	return "NULL";
+}
+
+std::vector< std::string > Groups::group_get_childs(std::string m_name)
+{
+	std::vector< std::string > childs;
+	int GroupIndex = GetNameIndex(m_name);
+	if (GroupIndex >= 0)
+	{
+		for (unsigned int group_it = 0; group_it < g.size(); group_it++)
+		{
+			if (boost::iequals(g[group_it]->get_inheritedgroup(),m_name))
+			{
+				childs.push_back(g[group_it]->get_name());
+				cout << "group: " << m_name << " has child: " << g[group_it]->get_name() << endl;
+			}
+		}
+	}
+	if (childs.size() > 0)
+	{
+		return childs;
+	}
+	return NULLvector;
+}
+
+std::vector< std::string > Groups::group_get_child_tree(std::string m_name, std::vector< std::string > data)
+{
+	if (is_group(m_name))
+	{
+		bool exists = false;
+		for ( unsigned int i = 0 ; i < data.size(); i++ )
+		{
+			if (boost::iequals(data[i],m_name))
+			{
+				exists = true;
+			}
+		}
+		if (!exists)
+		{
+			std::vector< std::string > childs = group_get_childs(m_name);
+			for (unsigned int childs_it = 0; childs_it < childs.size(); childs_it++)
+			{
+				std::string child = childs[childs_it];
+				if (is_group(child))
+				{
+					data.push_back(child);
+					std::vector< std::string > tmpdata = group_get_child_tree(child, data);
+					for (unsigned int tmpdata_it = 0; tmpdata_it < tmpdata.size(); tmpdata_it++)
+					{
+						if (is_group(tmpdata[tmpdata_it]))
+						{
+							data.push_back(tmpdata[tmpdata_it]);
+						}
+					}
+				}
+			}
+		}
+		return data;
+	}
+	return NULLvector;
+}
+
+void Groups::build_child_tree()
+{
+	/*for (unsigned int group_it = 0; group_it < g.size(); group_it++)
+	{
+		std::string current_group = g[group_it]->get_name();
+		for (unsigned int group_it2 = 0; group_it2 < g.size(); group_it2++)
+		{
+			std::vector< std::string > parents = g[group_it2]->get_parents();
+			for (unsigned int parents_it = 0; parents_it < parents.size(); parents_it++)
+			{
+				if (boost::iequals(current_group, parents[parents_it]))
+				{
+					g[group_it2]->add_parent(current_group);
+					cout << g[group_it2]->get_name() << " has parent " << current_group << endl;
+				}
+			}
+		}
+	}*/
+
+	for (unsigned int group_it = 0; group_it < g.size(); group_it++)
+	{
+		std::string current_group = g[group_it]->get_name();
+		std::vector< std::string > members_group;
+		members_group.push_back(current_group);
+		std::string parent = group_get_parent(current_group);
+		while (is_group(parent) == true)
+		{
+			bool exists = false;
+			for ( unsigned int i = 0 ; i < members_group.size(); i++ )
+			{
+				if (!boost::iequals(members_group[i],parent))
+				{
+					exists = true;
+				}
+			}
+			if (!exists)
+			{
+				members_group.push_back(parent);
+				cout << parent << endl;
+			}
+			parent = group_get_parent(parent);
+			cout << current_group << " has parents: " << parent << endl;
+		}
+	}
 }
 
 bool Groups::is_group(std::string m_name)

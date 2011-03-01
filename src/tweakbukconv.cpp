@@ -189,6 +189,8 @@ void tweakbukconv::GetGroupsDB()
     		std::cout << "onverwacht resultaat vector.size(): " << sql_result[i].size() << std::endl;
     	}
     }
+    groups->build_child_tree();
+    groups->build_child_tree();
 }
 //mysql
 std::vector< std::vector< std::string > > tweakbukconv::RawSqlSelect(std::string data)

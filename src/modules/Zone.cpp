@@ -45,6 +45,7 @@ void Zone::add_admin(std::string m_user)
     }
     if (!added)
     {
+    	cout << "owner: " << m_user << endl;
 		admins.push_back(m_user);
     }
 }
@@ -61,6 +62,7 @@ void Zone::add_user(std::string m_user)
     }
     if (!added)
     {
+    	cout << "member: " << m_user << endl;
 		users.push_back(m_user);
     }
 }

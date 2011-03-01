@@ -18,8 +18,11 @@ public:
 	bool group_init(std::string m_id, std::string m_name, std::string m_admin, std::string m_canmodifyworld, std::string m_defaultgroup, std::string m_ignorerestrictions);
 	bool group_add_commands(std::string m_name, std::string m_commands);
 	bool group_add_parent(std::string m_name, std::string m_parent);
+	std::vector< std::string > group_get_childs(std::string m_name);
+	std::vector< std::string > group_get_child_tree(std::string m_name, std::vector< std::string > data);
 
 	std::string group_get_parent(std::string m_name);
+	void build_child_tree();
 
 	bool is_group(std::string m_name);
 

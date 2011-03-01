@@ -25,6 +25,21 @@ void Group::add_inherit_group(std::string m_group)
 {
 	inheritedgroup = m_group;
 }
+void Group::add_parent(std::string m_group)
+{
+	bool exists = false;
+	for ( unsigned int i = 0 ; i < parents.size(); i++ )
+	{
+		if (boost::iequals(parents[i],m_group))
+		{
+			exists = true;
+		}
+	}
+	if (!exists)
+	{
+		parents.push_back(m_group);
+	}
+}
 void Group::add_command(std::string m_command)
 {
 	commands.push_back(m_command);
@@ -56,6 +71,10 @@ std::string Group::get_ignorerestrictions()
 std::string Group::get_inheritedgroup()
 {
 	return inheritedgroup;
+}
+std::vector< std::string > Group::get_parents()
+{
+	return parents;
 }
 std::vector< std::string > Group::get_commands()
 {
