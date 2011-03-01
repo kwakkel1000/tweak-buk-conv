@@ -367,7 +367,7 @@ void TweakZoneConvert::ParseZoneDataDB()
 			put_string = put_string + owners;
 			put_string = put_string + members;
 			put_string = put_string + "\"flags\":{";
-			put_string = put_string + "\"flags\":{";
+			put_string = put_string + "\"sFlags\":{";
 			put_string = put_string + "\"msg\":{\"f\":\"exited " + Zones[i].get_name() + "\",\"g\":\"entered " + Zones[i].get_name() + "\"},";
 			put_string = put_string + "\"states\":{";
 			put_string = put_string + allow_tnt;
