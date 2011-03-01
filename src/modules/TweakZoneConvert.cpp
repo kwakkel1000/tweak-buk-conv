@@ -370,7 +370,6 @@ void TweakZoneConvert::ParseZoneDataDB()
 			put_string = put_string + "\"sFlags\":{";
 			put_string = put_string + "\"fmsg\":\"exited " + Zones[i].get_name() + "\",";
 			put_string = put_string + "\"gmsg\":\"entered " + Zones[i].get_name() + "\",";
-			put_string = put_string + "\"states\":{";
 			put_string = put_string + allow_tnt;
 			put_string = put_string + ",";
 			put_string = put_string + allow_creeper;
@@ -380,7 +379,6 @@ void TweakZoneConvert::ParseZoneDataDB()
 			put_string = put_string + allow_pvp;
 			put_string = put_string + ",";
 			put_string = put_string + allow_mobdamage;
-			put_string = put_string + "}";
 			put_string = put_string + "}";
 			put_string = put_string + "}";
 			if (i == Zones.size()-1)
